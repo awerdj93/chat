@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import backend.exception.ProductNotFoundException;
+import backend.exception.NotFoundException;
 
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
@@ -17,7 +17,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         return new ResponseEntity<String>("The server has encountered an error.", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 	
-	@ExceptionHandler(ProductNotFoundException.class)
+	@ExceptionHandler(NotFoundException.class)
     public final ResponseEntity<?> handleInvalidUsernameOrPasswordException(Exception ex, WebRequest request) {
         return new ResponseEntity<String>(ex.getMessage(), HttpStatus.UNAUTHORIZED);
     }

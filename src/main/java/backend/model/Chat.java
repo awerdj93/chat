@@ -1,42 +1,41 @@
 package backend.model;
 
-import java.util.HashSet;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 
 @Entity
 @Getter
 @Setter
-@Table(name = "Carts")
-public class Cart extends BaseModel{
+@Table(name = "chat")
+@NoArgsConstructor
+public class Chat implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
-	private long userId;
 	
-	@ManyToMany(mappedBy="carts", cascade = CascadeType.ALL)
-	private Set <Product> products = new HashSet<>();
+	private Long recipientId;
+	private String recipientName;
+	private Long sender;
+	private boolean isDeleted;
 	
-	public void removeProduct(Product product) {
-		this.products.remove(product);
-		product.getCarts().remove(this);
-	}
+	@OneToMany(mappedBy="chat")
+	private Set<Message> messages;
+	
 }

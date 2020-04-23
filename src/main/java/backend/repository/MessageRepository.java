@@ -4,10 +4,9 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.QueryByExampleExecutor;
 import org.springframework.stereotype.Repository;
 
-import backend.model.Cart;
+import backend.model.Message;
 
 @Repository
-public interface CartRepository extends CrudRepository<Cart, Long>, QueryByExampleExecutor<Cart> {
-	
-
+public interface MessageRepository extends CrudRepository<Message, Long>, QueryByExampleExecutor<Message> {
+	Iterable<Message> findAllByCreatedBy(Long userId);
 }

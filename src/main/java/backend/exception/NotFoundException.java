@@ -7,11 +7,11 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @ResponseStatus(value = HttpStatus.NOT_FOUND)
-public class ProductNotFoundException extends RuntimeException {
+public class NotFoundException extends RuntimeException {
 	
 	private static final long serialVersionUID = -7872735426629925871L;
 
-	public ProductNotFoundException(String message) {
+	public NotFoundException(String message) {
 		super(message);
 	}
 
