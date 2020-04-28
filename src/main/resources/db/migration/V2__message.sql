@@ -8,6 +8,5 @@ CREATE TABLE public.message
     updated_by numeric,
     is_deleted boolean,
     chat_id numeric,
-    sequence bigint,
-    CONSTRAINT message_pkey PRIMARY KEY (id)
+    sequence bigint
 );
