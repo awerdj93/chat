@@ -30,9 +30,6 @@ public class MessageServiceImpl implements MessageService {
 	public Long create(MessageDTO messageDTO) {
 		Message message = new Message();
 		BeanUtils.copyProperties(messageDTO, message);
-		System.out.println(messageDTO.getCreatedAt());
-
-		System.out.println(message.getCreatedAt());
 		Optional<Chat> opt = chatRepository.findById(messageDTO.getChatId());
 		if (!opt.isPresent()) {
 			throw new NotFoundException();
@@ -59,6 +56,10 @@ public class MessageServiceImpl implements MessageService {
 			public MessageDTO apply(Message message) {
 				MessageDTO messageDTO = new MessageDTO();
 				BeanUtils.copyProperties(message, messageDTO);
+				messageDTO.setSender(message.getCreatedBy());
+				messageDTO.setMsgDate(message.getCreatedAt());
+				messageDTO.setChatId(message.getChat().getId());
+				messageDTO.setRecipient(message.getChat().getRecipientId());
 				return messageDTO;
 			}
 		}).collect(Collectors.toList());

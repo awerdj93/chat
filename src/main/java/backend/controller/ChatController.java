@@ -28,13 +28,14 @@ public class ChatController {
 	
 	@GetMapping("/users/{userId}/chats")
 	@ResponseStatus(HttpStatus.OK)
-	public List<ChatDTO> getUserCart(@PathVariable long userId) {
+	public List<ChatDTO> findAll(@PathVariable long userId) {
+		System.out.println(userId);
 		return chatService.findAll(userId);
 	}
 	
 	@GetMapping("/users/{userId}/chats/recipient/{recipientId}")
 	@ResponseStatus(HttpStatus.OK)
-	public ChatDTO getUserCart(@PathVariable long userId, @PathVariable long recipientId) {
+	public ChatDTO findChatByRecipient(@PathVariable long userId, @PathVariable long recipientId) {
 		return chatService.findChatByRecipient(userId, recipientId);
 	}
 }

@@ -13,9 +13,9 @@ public class MessageDTO {
 	private Long recipient;
 	private String message;
 	private Long sequence;
-	private Long createdBy;
-	private ZonedDateTime createdAt;
-	private Long updatedBy;
-	private ZonedDateTime updatedAt;
+	private Long sender;
+	private ZonedDateTime msgDate;
 	private Long chatId;
+	private Long createdBy;
+	private Long updatedBy;
 }
