@@ -35,21 +35,21 @@ class ChatServiceTest {
 	@MockBean
 	private ChatRepository chatRepository;
 	
-	@Test
-	void addChatTest() {
-		ChatDTO chatDTO = new ChatDTO();
-		chatDTO.setId(1l);
-		chatDTO.setSender(1l);
-		chatDTO.setRecipientId(1l);
-		chatDTO.setRecipientName("laal");
-		chatDTO.setMessages(new ArrayList<>());
-		
-		chatService.createChat(chatDTO);
-		
-		verify(chatRepository, times(1)).findByRecipientId(1l);
-		verify(chatRepository, times(1)).save(any(Chat.class));
-		
-	}
+//	@Test
+//	void addChatTest() {
+//		ChatDTO chatDTO = new ChatDTO();
+//		chatDTO.setId(1l);
+//		chatDTO.setSender(1l);
+//		chatDTO.setRecipientId(1l);
+//		chatDTO.setRecipientName("laal");
+//		chatDTO.setMessages(new ArrayList<>());
+//		
+//		chatService.createChat(chatDTO);
+//		
+//		verify(chatRepository, times(1)).findByRecipientId(1l);
+//		verify(chatRepository, times(1)).save(any(Chat.class));
+//		
+//	}
 	
 //	@Test
 //	void removeProductTest() {
