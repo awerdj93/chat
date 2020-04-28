@@ -29,7 +29,7 @@ public class ChatServiceImpl implements ChatService {
 	@Override
 	public long createChat(ChatDTO chatDTO) {
 		List<Chat> list = chatRepository.findByRecipientId(chatDTO.getRecipientId());
-		if (list != null && list.size() == 0) {
+		if (list != null && list.size() > 0) {
 			return list.get(0).getId();
 		}
 		else {
