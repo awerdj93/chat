@@ -64,10 +64,9 @@ public class ChatServiceImpl implements ChatService {
 				messageDTO.setRecipient(chat.getRecipientId());
 				messageList.add(messageDTO);
 			}
+			sortMessagesBySeq(messageList);
+			populateMessages(chatDTO, messageList);
 		}
-		sortMessagesBySeq(messageList);
-		populateMessages(chatDTO, messageList);
-		
 		
 		return chatDTO;
 	}
@@ -93,10 +92,9 @@ public class ChatServiceImpl implements ChatService {
 						messageDTO.setRecipient(chat.getRecipientId());
 						messageList.add(messageDTO);
 					}
+					sortMessagesBySeq(messageList);
+					populateMessages(chatDTO, messageList);
 				}
-				sortMessagesBySeq(messageList);
-				populateMessages(chatDTO, messageList);
-				
 				return chatDTO;
 			}
 		}).collect(Collectors.toList());
