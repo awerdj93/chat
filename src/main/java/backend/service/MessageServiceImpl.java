@@ -44,6 +44,11 @@ public class MessageServiceImpl implements MessageService {
 	public void update(MessageDTO messageDTO) {
 		Message message = new Message();
 		BeanUtils.copyProperties(messageDTO, message);
+		Optional<Chat> opt = chatRepository.findById(messageDTO.getChatId());
+		if (!opt.isPresent()) {
+			throw new NotFoundException();
+		} 
+		message.setChat(opt.get());
 		messageRepository.save(message);
 	}
 

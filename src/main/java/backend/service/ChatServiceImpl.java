@@ -28,15 +28,15 @@ public class ChatServiceImpl implements ChatService {
 
 	@Override
 	public long createChat(ChatDTO chatDTO) {
-		List<Chat> list = chatRepository.findByRecipientId(chatDTO.getRecipientId());
-		if (list != null && list.size() > 0) {
-			return list.get(0).getId();
-		}
-		else {
+		Optional<Chat> optional = chatRepository.findBySenderAndRecipientId(chatDTO.getSender(), chatDTO.getRecipientId());
+		if (optional.isEmpty()) {
 			Chat chat = new Chat();
 			BeanUtils.copyProperties(chatDTO, chat);
 			chat = chatRepository.save(chat);
 			return chat.getId();
+		}
+		else {
+			return optional.get().getId();
 		}
 	}
 

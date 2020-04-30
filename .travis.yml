@@ -15,7 +15,7 @@ deploy:
   app: "chat"
   env: "chat-env"
   bucket_name: "elasticbeanstalk-ap-southeast-1-413765782488"
-  bucket_path: "chat"
+  bucket_path: "chat-env"
   on:
     all_branches: true
     condition: $TRAVIS_BRANCH =~ ^release\/.*$	  
