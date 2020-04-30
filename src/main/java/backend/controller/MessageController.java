@@ -23,9 +23,15 @@ public class MessageController {
 	private MessageService messageService;
 
 	@GetMapping("/users/{userId}/messages")
-	@ResponseStatus(HttpStatus.CREATED)
+	@ResponseStatus(HttpStatus.OK)
 	public List<MessageDTO> findAllByUserId(@PathVariable Long userId) {
 		return messageService.findAllByUserId(userId);
+	}
+	
+	@GetMapping("/users/{userId}/messages/{messageId}")
+	@ResponseStatus(HttpStatus.OK)
+	public MessageDTO findMessageByUserIdAndId(@PathVariable Long userId, @PathVariable Long messageId) {
+		return messageService.findMessageById(messageId);
 	}
 	
 	@PostMapping("/users/{userId}/messages")

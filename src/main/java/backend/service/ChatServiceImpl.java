@@ -55,7 +55,6 @@ public class ChatServiceImpl implements ChatService {
 		List<MessageDTO> messageList = new ArrayList<>();
 		if (chat.getMessages()!=null) {
 			for (Message message: chat.getMessages()) {
-				System.out.println(message.getCreatedBy());
 				MessageDTO messageDTO = new MessageDTO();
 				BeanUtils.copyProperties(message, messageDTO);
 				messageDTO.setSender(message.getCreatedBy());

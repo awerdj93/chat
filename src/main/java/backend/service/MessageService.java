@@ -9,6 +9,8 @@ public interface MessageService {
 	public Long create(MessageDTO messageDTO);
 
 	public void update(MessageDTO messageDTO);
+	
+	public MessageDTO findMessageById(Long messageId);
 
 	public List<MessageDTO> findAllByUserId(Long userId);
 	

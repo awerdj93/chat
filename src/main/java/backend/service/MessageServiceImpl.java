@@ -66,6 +66,24 @@ public class MessageServiceImpl implements MessageService {
 
 		return result;
 	}
+	
+	@Override
+	public MessageDTO findMessageById(Long messageId) {
+		Optional<Message> optional = messageRepository.findById(messageId);
+		if (optional.isEmpty()) {
+			throw new NotFoundException("Message not found.");
+		}
+		
+		MessageDTO messageDTO = new MessageDTO();
+		BeanUtils.copyProperties(optional.get(), messageDTO);
+		messageDTO.setSender(optional.get().getCreatedBy());
+		messageDTO.setMsgDate(optional.get().getCreatedAt());
+		messageDTO.setChatId(optional.get().getChat().getId());
+		messageDTO.setRecipient(optional.get().getChat().getRecipientId());
+		return messageDTO;
+	}
+	
+	
 
 	@Override
 	public void deleteById(Long id) {
