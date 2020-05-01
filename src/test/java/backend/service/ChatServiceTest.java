@@ -1,15 +1,16 @@
 package backend.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -20,124 +21,132 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import backend.dto.ChatDTO;
 import backend.model.Chat;
+import backend.model.Message;
 import backend.repository.ChatRepository;
-import backend.repository.MessageRepository;
 
 @SpringBootTest(classes = ChatServiceImpl.class)
 class ChatServiceTest {
 
 	@Autowired
 	private ChatService chatService;
-	
-	@MockBean
-	private MessageRepository messageRepository;
 
 	@MockBean
 	private ChatRepository chatRepository;
 	
-//	@Test
-//	void addChatTest() {
-//		ChatDTO chatDTO = new ChatDTO();
-//		chatDTO.setId(1l);
-//		chatDTO.setSender(1l);
-//		chatDTO.setRecipientId(1l);
-//		chatDTO.setRecipientName("laal");
-//		chatDTO.setMessages(new ArrayList<>());
-//		
-//		chatService.createChat(chatDTO);
-//		
-//		verify(chatRepository, times(1)).findByRecipientId(1l);
-//		verify(chatRepository, times(1)).save(any(Chat.class));
-//		
-//	}
+	@Test
+	void addChatTest() {
+		ChatDTO chatDTO = new ChatDTO();
+		chatDTO.setSender(1l);
+		chatDTO.setRecipientId(2l);
+		chatDTO.setRecipientName("TESTING");
+		chatDTO.setMessages(new ArrayList<>());
+		
+		Chat chat = new Chat();
+		chat.setId(102l);
+		chat.setSender(1l);
+		chat.setRecipientId(2l);
+		chat.setRecipientName("TESTING");
+		
+		when(chatRepository.findBySenderAndRecipientId(any(Long.class), any(Long.class))).thenReturn(Optional.of(chat));
+		long id = chatService.createChat(chatDTO);
+		//verify(chatRepository, times(1)).save(any(Chat.class));
+		assertNotNull(id);
+	}
 	
-//	@Test
-//	void removeProductTest() {
-//		Product product = new Product();
-//		product.setId(1l);
-//		product.setUserId(1l);
-//		product.setCarts(new HashSet<>());
-//		
-//		Cart cart = new Cart();
-//		cart.setId(1l);
-//		cart.setProducts(new HashSet<>());
-//		
-//		when(cartRepository.findOne(any())).thenReturn(Optional.of(cart));
-//		when(productRepository.findById(1l)).thenReturn(Optional.of(product));
-//		
-//		cartService.removeProduct(1, 1);
-//		
-//		verify(productRepository, times(1)).findById(1l);
-//		verify(cartRepository, times(1)).findOne(any());
-//		verify(cartRepository, times(1)).save(any(Cart.class));
-//	}
-//	
-//	@Test
-//	void getUserCartTest() {
-//		Set<Product> productList = new HashSet<>();
-//		
-//		Product product = new Product();
-//		product.setId(1l);
-//		product.setUserId(1l);
-//		product.setPrice(new BigDecimal(100));
-//		
-//		Product product2 = new Product();
-//		product2.setId(2l);
-//		product2.setUserId(1l);
-//		product2.setPrice(new BigDecimal(105));
-//		
-//		productList.add(product);
-//		productList.add(product2);
-//		
-//		product.setCarts(new HashSet<>());
-//		product2.setCarts(new HashSet<>());
-//		
-//		Cart cart = new Cart();
-//		cart.setId(1l);
-//		cart.setProducts(productList);
-//		
-//		when(cartRepository.findOne(any())).thenReturn(Optional.of(cart));
-//		
-//		CartResponseDTO dto = cartService.getUserCart(1);
-//		
-//		verify(cartRepository, times(1)).findOne(any());
-//		
-//		assertEquals(dto.getTotalPrice(), product.getPrice().add(product2.getPrice()));
-//	}
-//	
-//	@Test
-//	void cartCloseForOrderTest() {
-//		Set<Product> productList = new HashSet<>();
-//		
-//		Product product = new Product();
-//		product.setId(1l);
-//		product.setUserId(1l);
-//		product.setIsDeleted(false);
-//		
-//		Product product2 = new Product();
-//		product2.setId(2l);
-//		product2.setUserId(1l);
-//		product.setIsDeleted(false);
-//		
-//		productList.add(product);
-//		productList.add(product2);
-//		
-//		product.setCarts(new HashSet<>());
-//		product2.setCarts(new HashSet<>());
-//		
-//		Cart cart = new Cart();
-//		cart.setId(1l);
-//		cart.setUserId(1);
-//		cart.setProducts(productList);
-//		
-//		when(cartRepository.findOne(any())).thenReturn(Optional.of(cart));
-//		
-//		cartService.cartClosedForOrder(1);
-//		
-//		verify(cartRepository, times(1)).findOne(any());
-//		verify(cartRepository, times(1)).save(any(Cart.class));
-//		
-//		assertTrue(cart.getIsDeleted());
-//	}
+	@Test
+	void findChatByRecipientTest() {
+		Message msg1 = new Message();
+		msg1.setId(1L);
+		msg1.setMessage("Send by 1");
+		msg1.setSequence(1L);
+		msg1.setCreatedBy(1L);
+		msg1.setUpdatedBy(2L);
+		
+		Message msg2 = new Message();
+		msg2.setId(1L);
+		msg2.setMessage("Send by 2");
+		msg2.setSequence(2L);
+		msg2.setCreatedBy(2L);
+		msg2.setUpdatedBy(1L);
+		
+		Set<Message> messages = new HashSet<>();
+		messages.add(msg1);
+		messages.add(msg2);
+				
+		Chat chat = new Chat();
+		chat.setId(101l);
+		chat.setSender(1l);
+		chat.setRecipientId(2l);
+		chat.setRecipientName("TESTING");
+		chat.setMessages(messages);
+		
+		when(chatRepository.findBySenderAndRecipientId(any(Long.class), any(Long.class))).thenReturn(Optional.of(chat));
+		
+		ChatDTO dto = chatService.findChatByRecipient(1, 2);
+		
+		verify(chatRepository, times(1)).findBySenderAndRecipientId(any(Long.class), any(Long.class));
+		assertEquals(dto.getSender(), chat.getSender());
+		assertEquals(dto.getRecipientId(), chat.getRecipientId());
+		assertEquals(dto.getRecipientName(), chat.getRecipientName());
+		assertEquals(dto.getMessages().size(), 2);
+		assertEquals(dto.getLastMessage().getMessage(), msg2.getMessage());
+	}
 
+	@Test
+	void findAll() {
+		
+		Message msg1 = new Message();
+		msg1.setId(1L);
+		msg1.setMessage("Send by 1");
+		msg1.setSequence(1L);
+		msg1.setCreatedBy(1L);
+		msg1.setUpdatedBy(2L);
+		
+		Message msg2 = new Message();
+		msg2.setId(1L);
+		msg2.setMessage("Send by 2");
+		msg2.setSequence(2L);
+		msg2.setCreatedBy(2L);
+		msg2.setUpdatedBy(1L);
+		
+		Set<Message> messages = new HashSet<>();
+		messages.add(msg1);
+		messages.add(msg2);
+				
+		Chat chat1 = new Chat();
+		chat1.setId(101l);
+		chat1.setSender(1l);
+		chat1.setRecipientId(2l);
+		chat1.setRecipientName("TESTING");
+		chat1.setMessages(messages);
+		
+		Chat chat2 = new Chat();
+		chat2.setId(102l);
+		chat2.setSender(1l);
+		chat2.setRecipientId(2l);
+		chat2.setRecipientName("TESTING");
+		
+		List<Chat> chats = new ArrayList<>();
+		chats.add(chat1);
+		chats.add(chat2);
+		Iterable<Chat> chatIter = chats;
+		
+		when(chatRepository.findAll()).thenReturn(chatIter);
+		
+		List<ChatDTO> dto = chatService.findAll(1);
+		
+		verify(chatRepository, times(1)).findAll();
+		assertEquals(dto.get(0).getSender(), chat1.getSender());
+		assertEquals(dto.get(0).getRecipientId(), chat1.getRecipientId());
+		assertEquals(dto.get(0).getRecipientName(), chat1.getRecipientName());
+		assertEquals(dto.get(0).getMessages().size(), 2);
+		assertEquals(dto.get(0).getLastMessage().getMessage(), msg2.getMessage());
+		
+		assertEquals(dto.get(1).getSender(), chat2.getSender());
+		assertEquals(dto.get(1).getRecipientId(), chat2.getRecipientId());
+		assertEquals(dto.get(1).getRecipientName(), chat2.getRecipientName());
+		assertNull(dto.get(1).getLastMessage());
+	}
+	
+	
 }
