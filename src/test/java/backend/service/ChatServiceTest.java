@@ -47,9 +47,10 @@ class ChatServiceTest {
 		chat.setRecipientId(2l);
 		chat.setRecipientName("TESTING");
 		
-		when(chatRepository.findBySenderAndRecipientId(any(Long.class), any(Long.class))).thenReturn(Optional.of(chat));
+		when(chatRepository.findBySenderAndRecipientId(any(Long.class), any(Long.class))).thenReturn(Optional.empty());
+		when(chatRepository.save(any())).thenReturn(chat);
 		long id = chatService.createChat(chatDTO);
-		//verify(chatRepository, times(1)).save(any(Chat.class));
+		verify(chatRepository, times(1)).save(any(Chat.class));
 		assertNotNull(id);
 	}
 	
